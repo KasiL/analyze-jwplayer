@@ -27,7 +27,7 @@ package {
     /** GA Tracking ID **/
     private var gaApiKey:String;
     /** GA Event Action **/
-    private var gaEvent:String;
+    private var gaAction:String;
 
 		/** Already recorded semaphore variable **/
 		private var alreadyRecordedThisPlay:Boolean = false;
@@ -42,9 +42,9 @@ package {
 			Logger.log('id: ' + awesmUrl, 'Analyze');
       gaApiKey = conf.gakey;
       tracker = new GATracker( this, gaApiKey, "AS3", false );
-			gaEvent = player.config.ga;
+			gaAction = "Media Played: " + player.config.ga_action;
 			Logger.log('gakey: ' + gaApiKey, 'Analyze');
-			Logger.log('event: ' + gaEvent, 'Analyze');
+			Logger.log('Event: ' + gaAction, 'Analyze');
 
 			// Listen for play position callbacks.
 			api.addEventListener(MediaEvent.JWPLAYER_MEDIA_TIME, playPosition);
@@ -73,7 +73,7 @@ package {
 			// Logger.log("Play percentage: " + fraction * 100, 'Analyze');
 			if (fraction >= 0.2) {
 				recordAwesmConversion();
-        tracker.trackEvent("Event", gaEvent);
+        tracker.trackEvent("Event", gaAction);
 			}
 		}
 
