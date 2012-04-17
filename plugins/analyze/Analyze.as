@@ -7,16 +7,28 @@ package {
 	import mx.rpc.http.*;
 	import mx.rpc.events.*;
 
-	public class Awesm extends Sprite implements IPlugin {
+  import com.google.analytics.GATracker;
+  import com.google.analytics.AnalyticsTracker;
+
+	public class Analyze extends Sprite implements IPlugin {
 
 		/** Configuration list of the plugin. **/
 		private var config:PluginConfig;
 		/** Reference to the JW Player API. **/
 		private var api:IPlayer;
+
 		/** Awesm API key **/
 		private var awesmApiKey:String;
 		/** Awesm ID **/
 		private var awesmUrl:String;
+
+    /** GA Tracker **/
+    public var tracker:AnalyticsTracker;
+    /** GA Tracking ID **/
+    private var gaApiKey:String;
+    /** GA Event Action **/
+    private var gaEvent:String;
+
 		/** Already recorded semaphore variable **/
 		private var alreadyRecordedThisPlay:Boolean = false;
 
@@ -24,10 +36,15 @@ package {
 		public function initPlugin(player:IPlayer, conf:PluginConfig):void {
 			api = player;
 			config = conf;
-			awesmApiKey = conf.apikey;
+			awesmApiKey = conf.awesmkey;
 			awesmUrl = player.config.awesm;
-			Logger.log('apikey: ' + awesmApiKey, 'Awesm');
-			Logger.log('id: ' + awesmUrl, 'Awesm');
+			Logger.log('awesmkey: ' + awesmApiKey, 'Analyze');
+			Logger.log('id: ' + awesmUrl, 'Analyze');
+      gaApiKey = conf.gakey;
+      tracker = new GATracker( this, gaApiKey, "AS3", false );
+			gaEvent = player.config.ga;
+			Logger.log('gakey: ' + gaApiKey, 'Analyze');
+			Logger.log('event: ' + gaEvent, 'Analyze');
 
 			// Listen for play position callbacks.
 			api.addEventListener(MediaEvent.JWPLAYER_MEDIA_TIME, playPosition);
@@ -37,7 +54,7 @@ package {
 
 		/** This should be a unique, lower-case identifier (e.g. "myplugin") **/
 		public function get id():String {
-			return "awesm";
+			return "analytics";
 		}
 
 		/** Called when the player has resized.  The dimensions of the plugin are passed in here. **/
@@ -53,9 +70,10 @@ package {
 			if (alreadyRecordedThisPlay) return;
 
 			var fraction:Number = (event.position / event.duration);
-			// Logger.log("Play percentage: " + fraction * 100, 'Awesm');
+			// Logger.log("Play percentage: " + fraction * 100, 'Analyze');
 			if (fraction >= 0.2) {
 				recordAwesmConversion();
+        tracker.trackEvent("Event", gaEvent);
 			}
 		}
 
@@ -63,7 +81,7 @@ package {
 			if (alreadyRecordedThisPlay) return;
 			alreadyRecordedThisPlay = true;
 
-			Logger.log('Beginning conversion call...', 'Awesm');
+			Logger.log('Beginning awesm conversion call...', 'Analyze');
 
 			// make the call to awesm
 			var http:HTTPService = new HTTPService();
@@ -82,16 +100,16 @@ package {
 			// send the request
 			http.send(params);
 
-			Logger.log('Conversion call sent...', 'Awesm');
+			Logger.log('Awesm conversion call sent...', 'Analyze');
 		}
 
 		private function resultHandler(event:ResultEvent):void {
-			Logger.log('Play conversion successful.', 'Awesm');
-			Logger.log(event.result, 'Awesm');
+			Logger.log('Awesm play conversion successful.', 'Analyze');
+			Logger.log(event.result, 'Analyze');
 		}
 
 		private function faultHandler(event:FaultEvent):void {
-			Logger.log('Play conversion failed.', 'Awesm');
+			Logger.log('Awesm play conversion failed.', 'Analyze');
 		}
 	}
 }

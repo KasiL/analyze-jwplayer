@@ -2,11 +2,11 @@ require 'fileutils'
 
 task :default => [:build]
 
-desc 'Build awesm.swf'
+desc 'Build analyze-jwplayer.swf'
 task :build do
-  puts 'Compiling awesm.swf...'
+  puts 'Compiling analyze-jwplayer.swf...'
   puts ''
-  puts %x{cd plugins/awesm; sh build.sh}
+  puts %x{cd plugins/analyze; sh build.sh}
   puts ''
   puts 'Done!'
 end

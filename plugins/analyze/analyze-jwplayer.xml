@@ -1,19 +1,25 @@
 <plugin>
-	<title>Awesm</title>
-	<filename>awesm.swf</filename>
+	<title>Analyze</title>
+	<filename>analyze-jwplayer.swf</filename>
   <version>0.1</version>
 	<compatibility>Compatible with 5.0.</compatibility>
 	<author>Topspin Media</author>
   <description>
-    This plugin makes a call to awe.sm's conversion API when passed an awesm=awesm_id parameter in the flashvars.
+    This plugin tracks awe.sm conversions and Google Analytics events.
+    It makes a call to awe.sm's conversion API when passed an awesm=awesm_id parameter in the flashvars.
 	</description>
 	<href>http://developer.longtailvideo.com/trac/browser/trunk/sdk/plugins/</href>
 
 	<flashvars>
 		<flashvar>
-			<name>apikey</name>
+			<name>awesmkey</name>
 			<default>8b87d24604bb1d6af91b2e082e9e83e3c9a9aa215f00330dae8be777392c07d1</default>
 			<description>The awe.sm api key whose awesm_ids will receive conversion calls.</description>
-		</flashvar>
+    </flashvar>
+    <flashvar>
+      <name>gakey</name>
+      <default>UA-XXXXXXXX-X</default>
+      <description>The GA account that will receive event calls.</description>
+    </flashvar>
 	</flashvars>
 </plugin>

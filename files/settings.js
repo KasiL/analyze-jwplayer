@@ -16,9 +16,9 @@ var settings = {
 			swf:'plugins/dockableskinnableplugin/dockableskinnableplugin.swf',
 			xml:'plugins/dockableskinnableplugin/dockableskinnableplugin.xml'
 		},
-    awesm: {
-      swf:'plugins/awesm/awesm.swf',
-      xml:'plugins/awesm/awesm.xml'
+    analyze: {
+      swf:'plugins/analyze/analyze-jwplayer.swf',
+      xml:'plugins/analyze/analyze-jwplayer.xml'
     }
 	},
 	/** Skins to embed in the testpage. **/
@@ -61,12 +61,13 @@ var settings = {
 		},
 		' ': {
     },
-    'Awesm Plugin': {
+    'Analyze Plugin': {
       file:'../files/bunny.flv',
       image:'files/bunny.jpg',
-      plugins:'awesm',
+      plugins:'analyze-jwplayer',
       debug:'console',
-      'awesm.apikey':'8b87d24604bb1d6af91b2e082e9e83e3c9a9aa215f00330dae8be777392c07d1', // Ziggy Marley (Preprod)
+      'analyze.awesmkey':'8b87d24604bb1d6af91b2e082e9e83e3c9a9aa215f00330dae8be777392c07d1', // Ziggy Marley (Preprod)
+      'analyze.gakey':'UA-XXXXXXXX-X',
       height:240,
       width:400
 		},
