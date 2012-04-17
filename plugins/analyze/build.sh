@@ -2,7 +2,7 @@
 # This is a simple script that compiles the plugin using the free Flex SDK on Linux/Mac.
 # Learn more at http://developer.longtailvideo.com/trac/wiki/PluginsCompiling
 
-FLEXPATH=/Applications/Adobe\ Flash\ Builder\ 4/sdks/4.0.0
+FLEXPATH=/Applications/Adobe\ Flash\ Builder\ 4/sdks/3.5.0
 
 
 echo "Compiling awesm and GA plugin..."
