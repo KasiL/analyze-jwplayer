@@ -17,6 +17,9 @@ package {
 		/** Reference to the JW Player API. **/
 		private var api:IPlayer;
 
+    /** Uses manually passed in flash vars (not from player.js) **/
+    private var manualVars:Boolean = false;
+
 		/** Awesm API key **/
 		private var awesmApiKey:String;
 		/** Awesm ID **/
@@ -36,15 +39,28 @@ package {
 		public function initPlugin(player:IPlayer, conf:PluginConfig):void {
 			api = player;
 			config = conf;
-			awesmApiKey = conf.awesmkey;
-			awesmUrl = player.config.awesm;
-			Logger.log('awesmkey: ' + awesmApiKey, 'Analyze');
-			Logger.log('id: ' + awesmUrl, 'Analyze');
-      gaApiKey = conf.gakey;
+
+      manualVars = config.manual;
+
+      if (manualVars == true) {
+        awesmApiKey = config.awesmkey;
+        awesmUrl = player.config.awesm;
+        gaApiKey = config.gakey;
+        gaAction = "Media Played: " + player.config.ga_action;
+      } else {
+        awesmApiKey = config['share']['awesm_key'];
+        awesmUrl = config['share']['awesm_url'];
+        gaApiKey = config['share']['ga_key'];
+        gaAction = "Media Played: " + "account_id=" + config['product']['account_id'] +
+            ",product_type=" + config['product']['type'] + ",product_id=" + config['product']['id'];
+      }
+
       tracker = new GATracker( this, gaApiKey, "AS3", false );
-			gaAction = "Media Played: " + player.config.ga_action;
-			Logger.log('gakey: ' + gaApiKey, 'Analyze');
-			Logger.log('Event: ' + gaAction, 'Analyze');
+
+      Logger.log('awesmkey: ' + awesmApiKey, 'Analyze');
+      Logger.log('id: ' + awesmUrl, 'Analyze');
+      Logger.log('gakey: ' + gaApiKey, 'Analyze');
+      Logger.log('Event: ' + gaAction, 'Analyze');
 
 			// Listen for play position callbacks.
 			api.addEventListener(MediaEvent.JWPLAYER_MEDIA_TIME, playPosition);
